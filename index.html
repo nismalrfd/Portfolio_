@@ -160,14 +160,20 @@
     
         <!-- Right-side Content -->
         <div id="headline" class="headline d-flex align-items-start flex-column" data-speed="1">
+            
+            <!-- Typing Effect Greeting -->
+            <div class="typing-effect">
+                <span class="typed-text"></span><span class="cursor"></span>
+            </div>
             <p class="headline__subtitle animate-headline">
-                <svg xmlns="http://www.w3.org/2000/svg" width="13px" height="13px" viewBox="0 0 13 13" fill="currentColor">
-                    <path fill="currentColor" d="M5.6,12.6c-0.5-0.8-0.7-2.4-1.7-3.5c-1-1-2.7-1.2-3.5-1.7C-0.1,7-0.1,6,0.4,5.6c0.8-0.5,2.3-0.6,3.5-1.8
-                        C5,2.8,5.1,1.2,5.6,0.4C6-0.1,7-0.1,7.4,0.4c0.5,0.8,0.7,2.4,1.8,3.5c1.2,1.2,2.6,1.2,3.5,1.7c0.6,0.4,0.6,1.4,0,1.7
-                        C11.8,7.9,10.2,8,9.1,9.1c-1,1-1.2,2.7-1.7,3.5C7,13.1,6,13.1,5.6,12.6z" />
-                </svg>
-                <span>Let's meet!</span>
-            </p>
+              <svg xmlns="http://www.w3.org/2000/svg" width="13px" height="13px" viewBox="0 0 13 13" fill="currentColor">
+                  <path fill="currentColor" d="M5.6,12.6c-0.5-0.8-0.7-2.4-1.7-3.5c-1-1-2.7-1.2-3.5-1.7C-0.1,7-0.1,6,0.4,5.6c0.8-0.5,2.3-0.6,3.5-1.8
+                      C5,2.8,5.1,1.2,5.6,0.4C6-0.1,7-0.1,7.4,0.4c0.5,0.8,0.7,2.4,1.8,3.5c1.2,1.2,2.6,1.2,3.5,1.7c0.6,0.4,0.6,1.4,0,1.7
+                      C11.8,7.9,10.2,8,9.1,9.1c-1,1-1.2,2.7-1.7,3.5C7,13.1,6,13.1,5.6,12.6z" />
+              </svg>
+              <span>Let's meet!</span>
+          </p>
+    
             <h1 class="headline__title animate-headline">
                 I'm NISMAL CT<br />Fullstack Developer
             </h1>
@@ -877,22 +883,69 @@
   <script src="js/app.js"></script>
   <script src="js/gallery-init.js"></script>
   <script type="text/javascript">
-    (function (c, l, a, r, i, t, y) {
-      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
-      t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
-      y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
-    })(window, document, "clarity", "script", "o23jve0pau");
+  //   (function (c, l, a, r, i, t, y) {
+  //     c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+  //     t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+  //     y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+  //   })(window, document, "clarity", "script", "o23jve0pau");
 
-    document.addEventListener('keydown', function(event) {
-    if (event.ctrlKey && (event.key === 'u' || event.key === 'U')) {
-      event.preventDefault();
-    }
-    if (event.key === 'F12' || (event.ctrlKey && event.shiftKey && event.key === 'I')) {
-      event.preventDefault();
-    }
-  });
+  //   document.addEventListener('keydown', function(event) {
+  //   if (event.ctrlKey && (event.key === 'u' || event.key === 'U')) {
+  //     event.preventDefault();
+  //   }
+  //   if (event.key === 'F12' || (event.ctrlKey && event.shiftKey && event.key === 'I')) {
+  //     event.preventDefault();
+  //   }
+  // });
 
-  document.addEventListener('contextmenu', event => event.preventDefault());
+  // document.addEventListener('contextmenu', event => event.preventDefault());
+
+
+  // Typing effect texts
+  const typedTextSpan = document.querySelector(".typed-text");
+
+// Function to get greeting based on current time
+function getTimeBasedGreeting() {
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 12) {
+        return "Good Morning!";
+    } else if (hour >= 12 && hour < 17) {
+        return "Good Afternoon!";
+    } else if (hour >= 17 && hour < 21) {
+        return "Good Evening!";
+    } else {
+        return "Good Night!";
+    }
+}
+
+let greeting = getTimeBasedGreeting();
+let charIndex = 0;
+
+function type() {
+    if (charIndex < greeting.length) {
+        typedTextSpan.textContent += greeting.charAt(charIndex);
+        charIndex++;
+        setTimeout(type, 150);
+    } else {
+        setTimeout(erase, 2000);
+    }
+}
+
+function erase() {
+    if (charIndex > 0) {
+        typedTextSpan.textContent = greeting.substring(0, charIndex - 1);
+        charIndex--;
+        setTimeout(erase, 100);
+    } else {
+        // Refresh the greeting based on the current time
+        greeting = getTimeBasedGreeting();
+        setTimeout(type, 500);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    if (greeting.length) setTimeout(type, 500);
+});
 
   </script>
   <!-- Load Scripts End -->
