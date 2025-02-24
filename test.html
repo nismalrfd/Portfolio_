@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EmailJS Contact Form with Auto-Reply</title>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .contact-form {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 400px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<div class="contact-form">
+  <h2>Contact Us</h2>
+  <form id="contact-form">
+    <input type="text" id="name" placeholder="Your Name" required />
+    <input type="email" id="email" placeholder="Your Email" required />
+    <input type="text" id="subject" placeholder="Subject" required />
+    <input type="text" id="phone" placeholder="Phone Number" required />
+    <textarea id="message" placeholder="Your Message" rows="5" required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+</div>
+
+<script>
+  (function () {
+  emailjs.init("H415WFfzp8KzpnUBC"); // Replace with your public key
+})();
+
+document.getElementById("contact-form").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  // Sending the user's message to you
+  emailjs.send("service_luyn22y", "template_w1w7lq9", {
+    name: document.getElementById("name").value,
+    email: document.getElementById("email").value,
+    subject: document.getElementById("subject").value,
+    phone: document.getElementById("phone").value,
+    message: document.getElementById("message").value
+  })
+  .then(
+    function (response) {
+      alert("Email sent successfully!");
+
+      // Sending the automatic reply to the user
+      emailjs.send("service_luyn22y", "template_x337flp", {
+        to_email: document.getElementById("email").value, // Make sure this matches the template
+        name: document.getElementById("name").value,
+        subject: document.getElementById("subject").value
+      })
+      .then(() => {
+        console.log("Auto-reply sent successfully.");
+      })
+      .catch((error) => {
+        console.error("Auto-reply failed:", error);
+      });
+    },
+    function (error) {
+      alert("Failed to send email. Error: " + JSON.stringify(error));
+    }
+  );
+});
+
+</script>
+
+</body>
+</html>
