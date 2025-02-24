@@ -646,27 +646,24 @@
 
             <!-- Contact Form Start -->
             <form class="form contact-form" id="contact-form">
-              <!-- Hidden Required Fields -->
-              <input type="hidden" name="project_name" value="Starter Template" />
-              <input type="hidden" name="admin_email" value="muneesmmm@gmail.com" />
-              <input type="hidden" name="form_subject" value="Contact Form Message" />
+
               <!-- END Hidden Required Fields-->
               <div class="container-fluid p-0">
                 <div class="row gx-0">
                   <div class="col-12 col-md-6 form__item animate-in-up">
-                    <input type="text" name="Name" placeholder="Your Name*" required />
+                    <input type="text" name="Name" placeholder="Your Name*" required id="name"/>
                   </div>
                   <div class="col-12 col-md-6 form__item animate-in-up">
-                    <input type="text" name="Company" placeholder="Company Name" />
+                    <input type="text" name="Company" placeholder="Company Name"id="message" />
                   </div>
                   <div class="col-12 col-md-6 form__item animate-in-up">
-                    <input type="email" name="E-mail" placeholder="Email Adress*" required />
+                    <input type="email" name="E-mail" placeholder="Email Adress*" required id="email"/>
                   </div>
                   <div class="col-12 col-md-6 form__item animate-in-up">
-                    <input type="tel" name="Phone" placeholder="Phone Number*" required />
+                    <input type="tel" name="Phone" placeholder="Phone Number*" required id="phone" />
                   </div>
                   <div class="col-12 form__item animate-in-up">
-                    <textarea name="Message" placeholder="A Few Words*" required></textarea>
+                    <textarea name="Message" placeholder="A Few Words*" required id="subject"></textarea>
                   </div>
                   <div class="col-12 form__item animate-in-up">
                     <button class="btn btn-default btn-hover btn-hover-accent" type="submit">
@@ -881,6 +878,7 @@
     }
   </script>
   <script src="js/app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script src="js/gallery-init.js"></script>
   <script type="text/javascript">
   //   (function (c, l, a, r, i, t, y) {
@@ -946,6 +944,31 @@ function erase() {
 document.addEventListener("DOMContentLoaded", function () {
     if (greeting.length) setTimeout(type, 500);
 });
+
+// email 
+
+    (function () {
+      emailjs.init("H415WFfzp8KzpnUBC"); // Replace with your public key
+    })();
+      document.getElementById("contact-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      emailjs.send("service_luyn22y", "template_w1w7lq9", {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        subject: document.getElementById("subject").value,
+        phone: document.getElementById("phone").value,
+        message: document.getElementById("message").value
+      })
+      .then(
+        function (response) {
+          alert("Email sent successfully!", response.status, response.text);
+        },
+        function (error) {
+          alert("Failed to send email. Error: " + JSON.stringify(error));
+        }
+      );
+    });
 
   </script>
   <!-- Load Scripts End -->
